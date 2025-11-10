@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_siswa')->constrained('siswa')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('id_guru')->constrained('guru')->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('status', ['hadir', 'sakit', 'izin', 'alfa'])->nullable()->default('hadir');
+            $table->enum('status', ['hadir', 'sakit', 'izin', 'alfa', 'terlambat'])->nullable()->default('hadir');
             $table->string('alasan');
+            $table->dateTime('tanggal')->useCurrent();
             $table->timestamps();
         });
     }

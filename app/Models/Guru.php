@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Guru extends Model
 {
@@ -13,4 +14,10 @@ class Guru extends Model
         'nip',
         'password'
     ];
+
+    public function absensi(): HasMany
+    {
+        // Relasi ke tabel absensi, merujuk ke 'id_guru'
+        return $this->hasMany(Absensi::class, 'id_guru');
+    }
 }
