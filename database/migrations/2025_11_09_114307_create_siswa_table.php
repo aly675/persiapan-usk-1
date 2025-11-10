@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 255)->default('billy');
-            $table->string('nis', 5);
+            $table->string('nama', 255);
+            $table->string('nis', 64);
             $table->enum('kelas', ['x', 'xi', 'xii']);
-            $table->enum('jursan', ['rpl', 'ak', 'br', 'mp']);
+            $table->enum('jurusan', ['rpl', 'ak', 'br', 'mp']);
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->text('alamat')->nullable();
             $table->timestamps();

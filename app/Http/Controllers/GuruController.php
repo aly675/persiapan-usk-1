@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
@@ -29,11 +30,13 @@ class GuruController extends Controller
     {
         $validated = $request->validate([
             'nama'          => 'required',
-            'nip'           => 'required|integer|min:10|max:10',
+            'nip'           => 'required|min:10|max:10',
             'password'      => 'required'
         ]);
 
         try{
+               // HASH PASSWORD SEBELUM CREATE
+            $validated['password'] = Hash::make($validated['password']);
             Guru::create($validated);
             return redirect()->route('guru.daftar-guru-page')->with('succes', 'data berhasil disimpan');
         } catch(\Exception $e){
@@ -53,13 +56,15 @@ class GuruController extends Controller
 
     public function edit_guru(Request $request, $id)
     {
-        $guru = Siswa::find($id);
+        $guru = Guru::find($id);
 
         $validated = $request->validate([
             'nama'          => 'required',
-            'nip'           => 'required|integer|min:10|max:10',
+            'nip'           => 'required|min:10|max:10',
             'password'      => 'required',
         ]);
+        // HASH PASSWORD SEBELUM CREATE
+        $validated['password'] = Hash::make($validated['password']);
 
         try{
             $guru->update($validated);
@@ -74,7 +79,7 @@ class GuruController extends Controller
         $guru = Guru::find($id);
         try{
             $guru->delete();
-            return redirect('guru.daftar-guru-page')->with('succes', 'data berhasil dihapus');
+            return redirect()->route('guru.daftar-guru-page')->with('succes', 'data berhasil dihapus');
         } catch(\Exception $e) {
             return redirect()->back()->with('error', "gagal : ". $e->getMessage());
         }

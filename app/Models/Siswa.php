@@ -10,9 +10,8 @@ class Siswa extends Model
 {
     protected $table = "siswa";
 
-    protected $fillble = [
+    protected $fillable = [
         "nama",
-        "password",
         "nis",
         "kelas",
         "jurusan",
