@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\SiswaController;
@@ -8,12 +9,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('admin')->group(function(){
+Route::prefix('auth')->middleware('islogin')->group(function() {
+    Route::get('/login', [AuthController::class, 'login_page'])->name('login_page');
+    Route::post('/login', [AuthController::class, 'login_submit'])->name('login');
+});
+
+Route::prefix('admin')->middleware('admin')->group(function(){
 
     // Route untuk Dashboard Admin
     Route::get('dashboard', function(){
-        return view('admin.dashboard');
+        $guru = session('guru');
+
+        return view('admin.dashboard', compact('guru'));
     })->name('admin.dashboard');
+
     Route::prefix('siswa')->group( function() {
         Route::prefix('siswa')->group(function () {
         // <-- ISI ROUTE SISWA DI SINI -->
